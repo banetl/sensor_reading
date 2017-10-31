@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+message SensorReading {
+    uint32 id = 1;
+    uint32 co2 = 2;
+    float temperature = 3;
+    float humidity = 4;
+}
