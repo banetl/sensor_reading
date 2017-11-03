@@ -1,11 +1,13 @@
 #! /usr/bin/env python3
 
 import sys
-
-import sensor_pb2 as spb
 import serial
 
 from cobs import cobs
+
+sys.path.append('../python')
+
+import sensor_pb2 as spb
 
 # For example : ./sensor_writing.py /dev/ttyUSB0
 if len(sys.argv) != 3:

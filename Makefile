@@ -21,6 +21,8 @@ pb-cpp:
 init:
 	pip3 install -r $(REQUIREMENTS)
 
+build: pb-cpp $(BIN)
+
 $(BIN): $(OBJS)
 	$(CC) $(CXXFLAGS) -o $@ $^ $(LDLIBS)
 
@@ -28,7 +30,7 @@ debug: CXXFLAGS += -O0 -g
 debug: $(BIN)
 
 clean:
-	$(RM) $(TRASH)
+	$(RM) -r $(TRASH)
 	$(RM) $(OBJS)
 	$(RM) $(BIN)
 	$(RM) $(PROTOBUF)
