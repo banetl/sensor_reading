@@ -45,10 +45,6 @@ std::string cobs_decode(const std::string& input)
         for (uint8_t i = 0; i < value; ++i)
             output += input[read_idx++];
 
-        /*auto substr = input.substr(read_idx, value);
-        output += substr;
-        read_idx += substr.length();*/
-
         if (value < 0xFF && read_idx != input.length())
             output += '\0';
     }
@@ -119,6 +115,7 @@ int main(int argc, char **argv)
     auto port = argv[1];
     auto baud = std::atoi(argv[2]);
     int timeout = (argc == 4) ? std::atoi(argv[3]) : 0;
+    timeout = (timeout < 0) ? 0 : timeout;
 
     int fd = open_port(port, baud, timeout);
     if (fd == -1)
@@ -130,17 +127,20 @@ int main(int argc, char **argv)
 
     char c;
     std::string line;
-    while (read(fd, &c, 1) > 0)
+    do
     {
-        if (c == '\0')
+        while (read(fd, &c, 1) > 0)
         {
-            if (!decode_and_dump(line))
-                return 2;
-            line.clear();
+            if (c == '\0')
+            {
+                if (!decode_and_dump(line))
+                    return 2;
+                line.clear();
+            }
+            else
+                line += c;
         }
-        else
-            line += c;
-    }
+    } while (!timeout);
 
     close(fd);
     return 0;
