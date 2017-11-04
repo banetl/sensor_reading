@@ -35,4 +35,4 @@ clean:
 	$(RM) $(BIN)
 	$(RM) $(PROTOBUF)
 
-.PHONY: init clean all pb-python pb-cpp debug
+.PHONY: init clean all pb-python pb-cpp debug build
